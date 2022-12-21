@@ -16,15 +16,36 @@ import Settings from "./screens/Settings";
 import AddCard from "./screens/AddCard";
 import CheckOut from "./screens/CheckOut";
 import OrderStatus from "./screens/OrderStatus"
-
+import MyOrders from "./screens/MyOrders";
+import Ionicons from 'react-native-vector-icons/MaterialCommunityIcons';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function Home() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'Scan') {
+          iconName = focused
+            ? 'barcode-scan'
+            : 'barcode-scan';
+        } else if (route.name === 'Map') {
+          iconName = focused ? 'map-marker-star-outline' : 'map-marker-star';
+        }else if (route.name === 'Settings') {
+          iconName = focused ? 'account-settings-outline' : 'account-settings';
+        }
+
+        // You can return any component that you like here!
+        return <Ionicons name={iconName} size={size} color={color} />;
+      },
+      tabBarActiveTintColor: 'green',
+      tabBarInactiveTintColor: 'gray',
+      headerShown: false
+    })}>
       <Tab.Screen name="Scan" component={ScanScreen} options={{ headerShown: false }}/>
-      <Tab.Screen name="About" component={About} options={{ headerShown: false }}/>
+      <Tab.Screen name="Map" component={About} options={{ headerShown: false }}/>
       <Tab.Screen name="Settings" component={Settings} options={{ headerShown: false }}/>
     </Tab.Navigator>
   );
@@ -46,6 +67,7 @@ function App() {
         <Stack.Screen name="Menu" component={Menu} options={{ }} />
         <Stack.Screen name="AddCard" component={AddCard} options={{ headerShown: false }} />
         <Stack.Screen name="CheckOut" component={CheckOut}/>
+        <Stack.Screen name="MyOrders" component={MyOrders}/>
         <Stack.Screen name="OrderStatus" component={OrderStatus}/>
 
       </Stack.Navigator>

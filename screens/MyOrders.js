@@ -3,23 +3,42 @@ import {View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-nati
 
 import firestore from '@react-native-firebase/firestore';
 import { useRoute, } from '@react-navigation/native'; 
-import MenuItem from '../components/MenuInfo';
 import RNBounceable from "@freakycoder/react-native-bounceable";
- 
+import auth from '@react-native-firebase/auth';
   export default function MyOrders ({ navigation }, props)  {
     const route = useRoute();
-    const [products, setProducts] = useState([]);
+    const [order, setOrder] = useState([]);
     
     const [isLoading, setIsLoading] = useState()
 
+    async function fetchData() {
 
+
+        orderData = []
+    const querySnapshot = await firestore().collection("Order").get();
+    querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        if (doc.data().UserID == auth().currentUser.uid) {
+            orderData.push({
+                RestaurantID: doc.data().RestaurantID,
+                Date: doc.data().Date,
+                id: doc.id
+            })
+        };
+    });
+
+    setOrder(orderData);
+
+}
   
 
-    const clickHandler = (navigation) => {
-navigation.navigate("CheckOut")
+    const clickHandler = (navigation, item) => {
+        navigation.navigate('OrderStatus', {
+            orderID:item.id
+        })
     
   }
-  
+  useEffect(() => { fetchData() }, [])
     
     if (isLoading == true) {
         return (
@@ -29,15 +48,13 @@ navigation.navigate("CheckOut")
       return (
         <View style={{ height: "100%", paddingTop: 10, flex: 1 }}>
          
-          <View style={{flex: 0.87}}>
+          <View style={{flex: 1}}>
           <ScrollView style={{minHeight:"100%"}}>
     
-            {products.map(item =>
-              <View style={styles.container}>
-                <MenuItem item = {item} />
-    
-
-              </View>
+            {order.map(item =>
+              <RNBounceable style={styles.container} onPress={() => clickHandler(navigation, item)}>
+                <Text style={{color:"green", paddingLeft:5, alignSelf:"center"}}>{item.Date}</Text>
+              </RNBounceable>
             )}
     
           </ScrollView>
@@ -51,31 +68,13 @@ navigation.navigate("CheckOut")
       container: {
         flex: 1,
         backgroundColor: '#DDDDDD',
-paddingHorizontal: 5,
+        paddingHorizontal: 5,
         paddingBottom: 5,
-        borderWidth: 1,
         borderRadius: 30,
         marginBottom: "5%",
-        height: 200,
+        height:30,
         flexDirection: "row",
-        justifyContent:"space-between"
     
-      },
-     btnText:{
-fontSize:22,
-fontWeight:"bold"
-     },
-        checkOutButton:
-        {
-          width:"100%",
-          alignSelf:"center",
-          alignItems:"center",
-          height:"14%",
-          backgroundColor:"green",
-          borderRadius:25,
-          justifyContent:"center",
-
-
-        }
+      }
     });
     

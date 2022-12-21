@@ -46,6 +46,9 @@ export default function Settings({ navigation }, props) {
         ]
       );
     }
+    const MyOrdersHandler = (navigation) => {
+      navigation.navigate("MyOrders")
+    }
     const deletePress = () => {
       setIsLoading(true)
  
@@ -178,6 +181,11 @@ useEffect(() => {
             <Text style={{ fontSize: 16 }}>Save changes</Text>
           </RNBounceable>
         </View>
+        <View style={styles.buttonViewContainer}>
+          <RNBounceable style={styles.saveButton} onPress={() => MyOrdersHandler(navigation)}>
+            <Text style={{ fontSize: 16 }}>My orders</Text>
+          </RNBounceable>
+        </View>
       </View>
     </View>
   );
@@ -233,7 +241,7 @@ const styles = StyleSheet.create({
   buttonViewContainer: {
     width: "80%",
     borderRadius: 25,
-    height: "9%",
+    height: "7%",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 40,

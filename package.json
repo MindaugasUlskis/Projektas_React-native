@@ -30,6 +30,7 @@
     "react-native-safe-area-context": "^4.4.1",
     "react-native-screens": "^3.18.2",
     "react-native-uuid": "^2.0.1",
+    "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.5",
     "redux": "^4.2.0",
     "redux-thunk": "^2.4.2"
@@ -46,12 +47,11 @@
   },
   "jest": {
     "preset": "react-native",
-    "transformIgnorePatterns":
-    [
+    "transformIgnorePatterns": [
       "/node_modules/(?!(@react-native|react-native)/).*/"
     ],
-    "collectCoverage":true,
-    "setupFiles":[
+    "collectCoverage": true,
+    "setupFiles": [
       "<rootDir>/jest/setup.js"
     ]
   }
