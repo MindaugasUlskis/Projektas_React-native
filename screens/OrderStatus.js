@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button, View, Text, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { useRoute, } from '@react-navigation/native';
 import firestore from '@react-native-firebase/firestore';
-import symbolicateStackTrace from 'react-native/Libraries/Core/Devtools/symbolicateStackTrace';
+
 
 
 

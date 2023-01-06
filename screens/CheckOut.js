@@ -23,6 +23,7 @@ import { setCounter, increaseCounter, decreaseCounter, setSum, setTable, setRest
     const {restaurant} = useSelector(state=>state.restaurantReducer) // redux
     const {table} = useSelector(state=>state.tableReducer) // redux
     const dispatch = useDispatch()
+    
 
     const uploadAndNavigate = async (navigation) => {{
         setIsLoading(true)
@@ -55,6 +56,10 @@ import { setCounter, increaseCounter, decreaseCounter, setSum, setTable, setRest
     }
 
     const clickHandlerProcceed = (navigation) => {
+
+      firestore().collection('Table').doc(table).update({
+        Status:"Taken"
+    })
         
       uploadAndNavigate(navigation)
   }
